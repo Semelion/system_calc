@@ -2,7 +2,7 @@ import flet as ft
 # import calculator.py
 
 last_valid_value = ["",""]
-last_sys = ["",""]
+last_sys = ["","",""]
 
 def validate_numbers(field, pagee, id):
     global last_valid_value
@@ -51,8 +51,8 @@ def main(page: ft.Page):
             primary_container=ft.colors.GREEN_200
         ),
     )
-    page.window_width = 550
-    page.window_height = 300
+    page.window_width = 500
+    page.window_height = 500
 
     num1 = ft.TextField(label="Первое число", on_change=lambda e: validate_numbers(num1, page, id=0),
         border_radius=10, border_width=2, width=200)
@@ -69,19 +69,26 @@ def main(page: ft.Page):
         ]
     )
 
-    system1 = ft.TextField(label="С.С.", on_change=lambda e: validate_int(system1, page, id=0),
-        border_radius=10, border_width=2, width=200)
-    system2 = ft.TextField(label="С.С.", on_change=lambda e: validate_int(system2, page, id=1),
-        border_radius=10, border_width=2, width=200)
+    system1 = ft.TextField(label="С.С. 1", on_change=lambda e: validate_int(system1, page, id=0),
+        border_radius=10, border_width=2, width=100)
+    system2 = ft.TextField(label="С.С. 2", on_change=lambda e: validate_int(system2, page, id=1),
+        border_radius=10, border_width=2, width=100)
+    system_out = ft.TextField(label="С.С. вых.", on_change=lambda e: validate_int(system_out, page, id=2),
+        border_radius=10, border_width=2, width=100)
 
 
-    def get_result():
+    def get_result(num1_, system1_,
+        operator_dropdown_, num2_, system2_, system_out_):
         pass
-    calculate = ft.ElevatedButton("Посчитать", on_click=get_result())
+    calculate = ft.ElevatedButton("Посчитать", on_click=get_result(num1, system1,
+        operator_dropdown, num2, system2, system_out))
 
 
 
-    page.add(ft.Row([num1, system1]), operator_dropdown, ft.Row([num2, system2]), calculate)
+    page.add(ft.Row([num1, system1]),
+        operator_dropdown,
+        ft.Row([num2, system2]),
+        ft.Row([system_out, calculate]))
     # page.vertical_alignment = ft.MainAxisAlignment.CENTER
 
     # txt_number = ft.TextField(value="0", text_align="right", width=100)
