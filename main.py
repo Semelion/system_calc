@@ -104,6 +104,7 @@ def main(page: ft.Page):
             system2.label = "not 2"
             system_out.label = "not out"
             out.value = "Answer: " + str(out.value)[6:]
+            calculate.text = "Calculate"
             lang = True
             page.update()
         else:
@@ -113,6 +114,7 @@ def main(page: ft.Page):
             system2.label = "С.С. 2"
             system_out.label = "С.С. вых."
             out.value = "Ответ: " + str(out.value)[7:]
+            calculate.text = "Посчитать"
             lang = True
             page.update()
 
