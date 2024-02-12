@@ -2,6 +2,7 @@ import flet as ft
 import calculator2
 import re
 
+lang = False
 last_valid_value = ["",""]
 last_sys = ["","",""]
 regex = "^[0-9A-Z.]+$"
@@ -54,8 +55,9 @@ def main(page: ft.Page):
             primary_container=ft.colors.GREEN_200
         ),
     )
-    page.window_width = 500
+    page.window_width = 350
     page.window_height = 500
+    page.window_resizable = False
 
     num1 = ft.TextField(label="Первое число", on_change=lambda e: validate_numbers(num1, page, id=0),
         border_radius=10, border_width=2, width=200)
@@ -80,6 +82,11 @@ def main(page: ft.Page):
         border_radius=10, border_width=2, width=100)
 
     def get_result(e):
+        if lang == True:
+            out.value = "Answer: " + str(calculator2.num_systems(operator_dropdown.value, system1.value, num1.value,
+                system2.value, num2.value, system_out.value))
+            page.update()
+        else:
             out.value = "Ответ: " + str(calculator2.num_systems(operator_dropdown.value, system1.value, num1.value,
                 system2.value, num2.value, system_out.value))
             page.update()
@@ -89,7 +96,32 @@ def main(page: ft.Page):
 
     out = ft.Text(size=20, selectable=True)
 
-    page.add(ft.Row([num1, system1]),
+    def lang_change(e):
+        if sw_language.value == True:
+            num1.label = "first num"
+            num2.label = "second num"
+            system1.label = "not 1"
+            system2.label = "not 2"
+            system_out.label = "not out"
+            out.value = "Answer: " + str(out.value)[6:]
+            lang = True
+            page.update()
+        else:
+            num1.label = "Первое число"
+            num2.label = "Второе число"
+            system1.label = "С.С. 1"
+            system2.label = "С.С. 2"
+            system_out.label = "С.С. вых."
+            out.value = "Ответ: " + str(out.value)[7:]
+            lang = True
+            page.update()
+
+
+    ru_ = ft.Text("ru")
+    sw_language = ft.Switch(label="eng", value=False, on_change=lang_change)
+
+    page.add(ft.Row([ru_, sw_language]),
+        ft.Row([num1, system1]),
         operator_dropdown,
         ft.Row([num2, system2]),
         ft.Row([system_out, calculate]),
