@@ -1,7 +1,8 @@
 import flet as ft
+# import calculator.py
 
 last_valid_value = ["",""]
-last_sys = ""
+last_sys = ["",""]
 
 def validate_numbers(field, pagee, id):
     global last_valid_value
@@ -20,25 +21,25 @@ def validate_numbers(field, pagee, id):
             field.value = last_valid_value[id]
             pagee.update()
 
-def validate_int(field, pagee):
+def validate_int(field, pagee, id):
     global last_sys
 
     digits = field.value
     if digits == "":
-        last_sys = ""
+        last_sys[id] = ""
     else:
         try:
             int(digits)
             if(int(digits) > 36):
-                last_sys = 36
+                last_sys[id] = 36
             else:
-                last_sys = digits
-            field.value = last_sys
+                last_sys[id] = digits
+            field.value = last_sys[id]
             pagee.update()
 
             # print(float(digits))
         except ValueError:
-            field.value = last_sys
+            field.value = last_sys[id]
             pagee.update()
 
 
@@ -57,6 +58,7 @@ def main(page: ft.Page):
         border_radius=10, border_width=2, width=200)
     num2 = ft.TextField(label="Второе число", on_change=lambda e: validate_numbers(num2, page, id=1),
         border_radius=10, border_width=2, width=200)
+
     operator_dropdown = ft.Dropdown(
         width=100, border_radius=10, border_width=2,
         options=[
@@ -67,7 +69,9 @@ def main(page: ft.Page):
         ]
     )
 
-    system = ft.TextField(label="С.С.", on_change=lambda e: validate_int(system, page),
+    system1 = ft.TextField(label="С.С.", on_change=lambda e: validate_int(system1, page, id=0),
+        border_radius=10, border_width=2, width=200)
+    system2 = ft.TextField(label="С.С.", on_change=lambda e: validate_int(system2, page, id=1),
         border_radius=10, border_width=2, width=200)
 
 
@@ -77,7 +81,7 @@ def main(page: ft.Page):
 
 
 
-    page.add(ft.Row([num1, operator_dropdown, num2]), ft.Row([system, calculate]))
+    page.add(ft.Row([num1, system1]), operator_dropdown, ft.Row([num2, system2]), calculate)
     # page.vertical_alignment = ft.MainAxisAlignment.CENTER
 
     # txt_number = ft.TextField(value="0", text_align="right", width=100)
