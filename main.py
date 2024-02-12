@@ -1,24 +1,26 @@
 import flet as ft
 import calculator2
-
+import re
 
 last_valid_value = ["",""]
 last_sys = ["","",""]
+regex = "^[0-9A-Z.]+$"
+pattern = re.compile(regex)
 
 def validate_numbers(field, pagee, id):
     global last_valid_value
 
-    digits = field.value
+    digits = field.value.upper()
+    field.value = digits
+    pagee.update()
     # print(digits.replace(",", "."))
     if digits == "":
         last_valid_value[id] = ""
     else:
-        try:
-            if(digits != "-"):
-                float(digits)
-                last_valid_value[id] = digits.replace(",", ".")
-            # print(float(digits))
-        except ValueError:
+        if(digits != "-" and pattern.search(digits) is not None):
+            # float(digits)
+            last_valid_value[id] = digits
+        else:
             field.value = last_valid_value[id]
             pagee.update()
 
