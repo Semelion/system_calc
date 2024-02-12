@@ -1,5 +1,6 @@
 import flet as ft
-# import calculator.py
+import calculator2
+
 
 last_valid_value = ["",""]
 last_sys = ["","",""]
@@ -76,19 +77,22 @@ def main(page: ft.Page):
     system_out = ft.TextField(label="С.С. вых.", on_change=lambda e: validate_int(system_out, page, id=2),
         border_radius=10, border_width=2, width=100)
 
-
-    def get_result(num1_, system1_,
-        operator_dropdown_, num2_, system2_, system_out_):
-        pass
-    calculate = ft.ElevatedButton("Посчитать", on_click=get_result(num1, system1,
-        operator_dropdown, num2, system2, system_out))
+    def get_result(e):
+            out.value = "Ответ: " + str(calculator2.num_systems(operator_dropdown.value, system1.value, num1.value,
+                system2.value, num2.value, system_out.value))
+            page.update()
 
 
+    calculate = ft.FilledButton("Посчитать", on_click=get_result)
+
+    out = ft.Text(size=20, selectable=True)
 
     page.add(ft.Row([num1, system1]),
         operator_dropdown,
         ft.Row([num2, system2]),
-        ft.Row([system_out, calculate]))
+        ft.Row([system_out, calculate]),
+        out
+        )
     # page.vertical_alignment = ft.MainAxisAlignment.CENTER
 
     # txt_number = ft.TextField(value="0", text_align="right", width=100)
