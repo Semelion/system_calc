@@ -6,7 +6,7 @@ coding = zip(
 
 def to_rome(num):
     if num <= 0 or num >= 4000 or int(num) != num:
-        raise ValueError('Input should be an integer between 1 and 3999')
+        return "err format"
     result = []
     for d, r in coding:
         while num >= d:
@@ -42,14 +42,13 @@ def perform_operation(operation, num1, num2):
         result = to_arabic(num1) / to_arabic(num2)
     if result < 4000:
         return (to_rome(result))
-
     else:
-        return ('Число превышает 4000. Арабская запись числа: ', result)
+        return ('err big,', result)
 
 #example:
 
-a = 'MCMLIV' # 1954
-b = 'MMXX'   #2020
+# a = 'MCMLIV' # 1954
+# b = 'MMXX'   #2020
 
-c = perform_operation('+', a, b)
+# c = perform_operation('+', a, b)
 # c = 'MMMCMLXXIV' - это 3974
