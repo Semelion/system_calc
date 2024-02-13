@@ -45,6 +45,12 @@ def validate_int(field, pagee, id):
         except ValueError:
             field.value = last_sys[id]
             pagee.update()
+def check_num(num_val, sys):
+    digits = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+    for i in num_val:
+        if (digits.find(i, 0, len(digits) - 1) + 1) > int(sys):
+            return False
+    return True
 
 
 def main(page: ft.Page):
@@ -59,12 +65,16 @@ def main(page: ft.Page):
     page.window_height = 500
     page.window_resizable = False
 
-    page.navigation_bar = ft.NavigationBar(
-        destinations=[
-            ft.NavigationDestination(label="Режим 1"),
-            ft.NavigationDestination(label="Режим 2")
-        ], adaptive=True
-    )
+    def close_banner(e):
+        page.banner.open = False
+        page.update()
+
+    # page.navigation_bar = ft.NavigationBar(
+    #     destinations=[
+    #         ft.NavigationDestination(label="Режим 1"),
+    #         ft.NavigationDestination(label="Режим 2")
+    #     ], adaptive=True
+    # )
 
     num1 = ft.TextField(label="Первое число", on_change=lambda e: validate_numbers(num1, page, id=0),
         border_radius=10, border_width=2, width=200)
@@ -89,13 +99,25 @@ def main(page: ft.Page):
         border_radius=10, border_width=2, width=100)
 
     def get_result(e):
-        if lang == True:
-            out.value = "Answer: " + str(calculator2.num_systems(operator_dropdown.value, system1.value, num1.value,
-                system2.value, num2.value, system_out.value))
-            page.update()
+        # check_num(num1.value, system1.value)
+        chek = validate_data()
+        if chek == True:
+            if lang == True:
+                out.value = "Answer: " + str(calculator2.num_systems(operator_dropdown.value, system1.value, num1.value,
+                    system2.value, num2.value, system_out.value))
+                page.update()
+            else:
+                out.value = "Ответ: " + str(calculator2.num_systems(operator_dropdown.value, system1.value, num1.value,
+                    system2.value, num2.value, system_out.value))
+                page.update()
         else:
-            out.value = "Ответ: " + str(calculator2.num_systems(operator_dropdown.value, system1.value, num1.value,
-                system2.value, num2.value, system_out.value))
+            page.banner = ft.Banner(
+                # bgcolor=ft.colors.AMBER_100,
+                leading=ft.Icon(ft.icons.WARNING_AMBER_ROUNDED, color=ft.colors.AMBER, size=40),
+                content=ft.Text(chek),
+                actions=[ft.TextButton("Ok", on_click=close_banner)]
+                )
+            page.banner.open = True
             page.update()
 
 
@@ -122,8 +144,9 @@ def main(page: ft.Page):
             system_out.label = "С.С. вых."
             out.value = "Ответ: " + str(out.value)[7:]
             calculate.text = "Посчитать"
-            lang = True
+            lang = False
             page.update()
+        print(lang)
 
 
     ru_ = ft.Text("ru")
@@ -136,5 +159,29 @@ def main(page: ft.Page):
         ft.Row([system_out, calculate]),
         out
         )
+
+    def validate_data():
+        if system1.value != "" and system2.value != "" and system_out.value != "" and num1.value != "" and num2.value != "":
+            if int(system1.value) >= 2 and int(system1.value) <= 36:
+                if int(system2.value) >= 2 and int(system2.value) <= 36:
+                    if int(system_out.value) >= 2 and int(system_out.value) <= 36:
+                        if check_num(num1.value, system1.value) == True:
+                            if check_num(num2.value, system2.value) == True:
+                                return True
+                            else:
+                                return "num2"
+                        else:
+                            return "num1"
+                    else:
+                        return "system_out"
+                else:
+                    return "system1"
+            else:
+                return "system1"
+        else:
+            if lang == True:
+                return "not all fields are filled in"
+            else:
+                return "Не все поля заполнены"
 
 ft.app(target=main)
