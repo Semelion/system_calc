@@ -1,5 +1,5 @@
 import flet as ft
-import calculator2
+import backend
 import re
 
 last_valid_value = ["",""]
@@ -66,11 +66,11 @@ def main(page: ft.Page):
             if page.banner is not None:
                 page.banner.open = False
             if sw_language.value == True:
-                out.value = "Answer: " + str(calculator2.num_systems(operator_dropdown.value, system1.value, num1.value,
+                out.value = "Answer: " + str(backend.num_systems(operator_dropdown.value, system1.value, num1.value,
                     system2.value, num2.value, system_out.value))
                 page.update()
             else:
-                out.value = "Ответ: " + str(calculator2.num_systems(operator_dropdown.value, system1.value, num1.value,
+                out.value = "Ответ: " + str(backend.num_systems(operator_dropdown.value, system1.value, num1.value,
                     system2.value, num2.value, system_out.value))
                 page.update()
         else:

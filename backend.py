@@ -1,4 +1,4 @@
- def toBASEint(num, base):
+def toBASEint(num, base):
     alpha = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ"
     n = abs(num)
     b = alpha[n % base]
