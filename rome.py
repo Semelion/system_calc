@@ -5,6 +5,7 @@ coding = zip(
 
 
 def to_rome(num):
+    global coding
     if num <= 0 or num >= 4000 or int(num) != num:
         return "err format"
     result = []
@@ -12,6 +13,10 @@ def to_rome(num):
         while num >= d:
             result.append(r)
             num -= d
+    coding = zip(
+        [1000, 900, 500, 400, 100, 90, 50, 40, 10, 9, 5, 4, 1],
+        ["M", "CM", "D", "CD", "C", "XC", "L", "XL", "X", "IX", "V", "IV", "I"]
+    )
     return ''.join(result)
 
 def to_arabic(roman):

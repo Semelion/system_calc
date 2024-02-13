@@ -108,6 +108,7 @@ def main(page: ft.Page):
                 page.update()
             else:
                 answ = str(rome.perform_operation(operator_dropdown.value, num1_R.value, num2_R.value))
+                print(answ)
                 if answ.find("err big,", 0, len(answ)) != -1:
                     out_R.value = "Ответ в арабских цифрах (ответ слишком большой): " + answ[:7]
                 else:
