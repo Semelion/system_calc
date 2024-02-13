@@ -63,7 +63,8 @@ def main(page: ft.Page):
         # check_num(num1.value, system1.value)
         chek = validate_data()
         if chek == True:
-            page.banner.open = False
+            if page.banner is not None:
+                page.banner.open = False
             if sw_language.value == True:
                 out.value = "Answer: " + str(calculator2.num_systems(operator_dropdown.value, system1.value, num1.value,
                     system2.value, num2.value, system_out.value))
@@ -133,6 +134,10 @@ def main(page: ft.Page):
             system2.label = "not 2"
             system_out.label = "not out"
             calculate.text = "Calculate"
+
+            page.navigation_bar.destinations[0].label = "systems calc"
+            page.navigation_bar.destinations[1].label = "rome sys"
+
             if out.value is not None:
                 out.value = "Answer: " + str(out.value)[6:]
             page.update()
@@ -144,6 +149,10 @@ def main(page: ft.Page):
             system2.label = "С.С. 2"
             system_out.label = "С.С. вых."
             calculate.text = "Посчитать"
+
+            page.navigation_bar.destinations[0].label = "Калькулятор"
+            page.navigation_bar.destinations[1].label = "Римская"
+
             if out.value is not None:
                 out.value = "Ответ: " + str(out.value)[7:]
             page.update()
