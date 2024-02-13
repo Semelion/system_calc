@@ -37,14 +37,15 @@ def convert(Number, Basein, Baseout):
 
 def perform_operation(operation, num_bas1, num1, num_bas2, num2, res_bas):
     if operation == '+':
-        result = int(convert(num1, num_bas1, 10)) + int(convert(num2, num_bas2, 10))
+        return str( float(convert(num1, num_bas1, 10)) + float(convert(num2, num_bas2, 10)) )
     elif operation == '-':
-        result = abs(int(convert(num1, num_bas1, 10)) + int(convert(num2, num_bas2, 10)))
+        return str( float(convert(num1, num_bas1, 10)) + float(convert(num2, num_bas2, 10)) )
     elif operation == '*':
-        result = int(convert(num1, num_bas1, 10)) * int(convert(num2, num_bas2, 10))
+        return str( float(convert(num1, num_bas1, 10)) * float(convert(num2, num_bas2, 10)) )
     elif operation == ':':
-        result = int(convert(num1, num_bas1, 10)) / int(convert(num2, num_bas2, 10))
+        return str( float(convert(num1, num_bas1, 10)) / float(convert(num2, num_bas2, 10)) )
 
 def num_systems(operation, num_bas1, num1, num_bas2, num2, res_bas):
     result = perform_operation(operation, int(num_bas1), num1, int(num_bas2), num2, int(res_bas))
-    return result
+    print(result)
+    return convert(result, 10, int(res_bas))
