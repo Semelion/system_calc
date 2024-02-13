@@ -202,16 +202,21 @@ def main(page: ft.Page):
             page.title = "Калькулятор систем счисления"
             num1.label = "Первое число"
             num2.label = "Второе число"
+            num1_R.label = "Первое число"
+            num2_R.label = "Второе число"
             system1.label = "С.С. 1"
             system2.label = "С.С. 2"
             system_out.label = "С.С. вых."
             calculate.text = "Посчитать"
+            calculate_R.text = "Посчитать"
 
             page.navigation_bar.destinations[0].label = "Калькулятор"
             page.navigation_bar.destinations[1].label = "Римская"
 
             if out.value is not None:
                 out.value = "Ответ: " + str(out.value)[7:]
+            if out_R.value is not None:
+                out_.value = ""
             page.update()
         # print("chabge:" + str(lang))
 
