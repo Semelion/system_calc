@@ -59,6 +59,13 @@ def main(page: ft.Page):
     page.window_height = 500
     page.window_resizable = False
 
+    page.navigation_bar = ft.NavigationBar(
+        destinations=[
+            ft.NavigationDestination(label="Режим 1"),
+            ft.NavigationDestination(label="Режим 2")
+        ], adaptive=True
+    )
+
     num1 = ft.TextField(label="Первое число", on_change=lambda e: validate_numbers(num1, page, id=0),
         border_radius=10, border_width=2, width=200)
     num2 = ft.TextField(label="Второе число", on_change=lambda e: validate_numbers(num2, page, id=1),
@@ -129,46 +136,5 @@ def main(page: ft.Page):
         ft.Row([system_out, calculate]),
         out
         )
-    # page.vertical_alignment = ft.MainAxisAlignment.CENTER
-
-    # txt_number = ft.TextField(value="0", text_align="right", width=100)
-
-    # def minus_click(e):
-    #     txt_number.value = str(int(txt_number.value) - 1)
-    #     page.update()
-    #
-    # def plus_click(e):
-    #     txt_number.value = str(int(txt_number.value) + 1)
-    #     page.update()
-    #
-    # page.add(
-    #     ft.Row(
-    #         [
-    #             ft.IconButton(ft.icons.REMOVE, on_click=minus_click),
-    #             txt_number,
-    #             ft.IconButton(ft.icons.ADD, on_click=plus_click),
-    #         ],
-    #         alignment=ft.MainAxisAlignment.CENTER,
-    #     )
-    # )
-
-    # first_name = ft.TextField(label="Первое число", autofocus=True)
-    # last_name = ft.TextField(label="Второе число")
-    # greetings = ft.Column()
-    #
-    # def btn_click(e):
-    #
-    #     greetings.controls.append(ft.Text(f"Hello, {first_name.value} {last_name.value}!"))
-    #     first_name.value = ""
-    #     last_name.value = ""
-    #     page.update()
-    #     first_name.focus()
-    #
-    # page.add(
-    #     first_name,
-    #     last_name,
-    #     ft.ElevatedButton("Посчитать", on_click=btn_click),
-    #     greetings,
-    # )
 
 ft.app(target=main)
