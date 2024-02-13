@@ -63,6 +63,7 @@ def main(page: ft.Page):
         # check_num(num1.value, system1.value)
         chek = validate_data()
         if chek == True:
+            page.banner.open = False
             if sw_language.value == True:
                 out.value = "Answer: " + str(calculator2.num_systems(operator_dropdown.value, system1.value, num1.value,
                     system2.value, num2.value, system_out.value))
@@ -211,7 +212,7 @@ def main(page: ft.Page):
     tab_1 = ft.Column([ft.Row([num1, system1]), operator_dropdown, ft.Row([num2, system2]), ft.Row([system_out, calculate]), out])
 
     tab_2 = ft.Text("test")
-
+    tab_2.visible = False
     page.add(ft.Row([ru_, sw_language]), tab_1, tab_2)
 
 ft.app(target=main)
