@@ -4,14 +4,15 @@ import re
 import backend
 import rome
 
-last_valid_value = ["","","","",""]
+last_valid_value = ["","","","",""] # листы для соранения предыдущего значения текстовых полей
 last_sys = ["","",""]
-regex = "^[0-9A-Z.]+$"
+
+regex = "^[0-9A-Z.]+$" # регулярные выражения для проверки введённого в текстовые поля
 regex_R = "^[MCDXLVI]+$"
 pattern = re.compile(regex)
 pattern_R = re.compile(regex_R)
 
-def validate_numbers(field, pagee, id):
+def validate_numbers(field, pagee, id): # функция для проверки текстовых полей
     global last_valid_value
 
     digits = field.value.upper()
@@ -22,19 +23,19 @@ def validate_numbers(field, pagee, id):
         last_valid_value[id] = ""
     else:
         if id < 2:
-            if(digits != "-" and pattern.search(digits) is not None):
+            if(digits != "-" and pattern.search(digits) is not None): # проверка для обычных с.с.
                 last_valid_value[id] = digits
             else:
                 field.value = last_valid_value[id]
                 pagee.update()
         else:
-            if(pattern_R.search(digits) is not None):
+            if(pattern_R.search(digits) is not None): # проверка для римской системы
                 last_valid_value[id] = digits
             else:
                 field.value = last_valid_value[id]
                 pagee.update()
 
-def validate_int(field, pagee, id):
+def validate_int(field, pagee, id): # проверка полей для систем счисления
     global last_sys
 
     digits = field.value
@@ -55,7 +56,7 @@ def validate_int(field, pagee, id):
             field.value = last_sys[id]
             pagee.update()
 
-def check_num(num_val, sys):
+def check_num(num_val, sys): # функция проверки соответсвия числа его системе счисления
     digits = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ"
     for i in num_val:
         if (digits.find(i, 0, len(digits) - 1) + 1) > int(sys):
@@ -63,14 +64,14 @@ def check_num(num_val, sys):
     return True
 
 #############################
-def main(page: ft.Page):
+def main(page: ft.Page): # функция отрисовки окна
     page.update()
-    ####function#####
-    def close_banner(e):
+    ####function##### функции
+    def close_banner(e): # реакция на кнопку ок в банере для его закрытия
         page.banner.open = False
         page.update()
 
-    def get_result(e):
+    def get_result(e): # получение результата для обычных с.с.
         # check_num(num1.value, system1.value)
         chek = validate_data()
         if chek == True:
@@ -94,7 +95,7 @@ def main(page: ft.Page):
             page.banner.open = True
             page.update()
 
-    def get_result_R(e):
+    def get_result_R(e): # получение результата для Римской системы
         # check_num(num1.value, system1.value)
         if num1_R.value != "" and num2_R.value != "" and operator_dropdown.value is not None:
             if page.banner is not None:
@@ -134,7 +135,7 @@ def main(page: ft.Page):
                 page.banner.open = True
                 page.update()
 
-    def validate_data():
+    def validate_data(): # функция проверки полей
         # print(lang)
         if system1.value != "" and system2.value != "" and system_out.value != "" and num1.value != "" and num2.value != "" and operator_dropdown.value is not None:
             if int(system1.value) >= 2 and int(system1.value) <= 36:
@@ -174,7 +175,7 @@ def main(page: ft.Page):
             else:
                 return "Не все поля заполнены"
 
-    def lang_change(e):
+    def lang_change(e): # функция для переключателя языка, меняет имена полей и кнопок на экране
         if page.banner is not None:
             page.banner.open = False
         if sw_language.value == True:
@@ -220,14 +221,14 @@ def main(page: ft.Page):
             page.update()
         # print("chabge:" + str(lang))
 
-    def changetab(e):
+    def changetab(e): # функция смены вкладок
         # GET INDEX TAB
         my_index = e.control.selected_index
         tab_1.visible = True if my_index == 0 else False
         tab_2.visible = True if my_index == 1 else False
         page.update()
 
-    ####visible components####
+    ####visible components#### Сами визуальные компоненты
     page.title = "Калькулятор систем счисления"
     page.theme = ft.Theme(
         color_scheme=ft.ColorScheme(
@@ -248,7 +249,7 @@ def main(page: ft.Page):
         ], adaptive=True
     )
 
-    ###TAB1####
+    ###TAB1#### 1 страница
     num1 = ft.TextField(label="Первое число", on_change=lambda e: validate_numbers(num1, page, id=0),
         border_radius=10, border_width=2, width=200)
     num2 = ft.TextField(label="Второе число", on_change=lambda e: validate_numbers(num2, page, id=1),
@@ -278,7 +279,7 @@ def main(page: ft.Page):
     ru_ = ft.Text("ru")
     sw_language = ft.Switch(label="eng", value=False, on_change=lang_change)
 
-    ###TAB2####
+    ###TAB2#### 2 страница
     num1_R = ft.TextField(label="Первое число", on_change=lambda e: validate_numbers(num1_R, page, id=2),
         border_radius=10, border_width=2, width=200)
     num2_R = ft.TextField(label="Второе число", on_change=lambda e: validate_numbers(num2_R, page, id=3),
@@ -286,7 +287,7 @@ def main(page: ft.Page):
     calculate_R = ft.FilledButton("Посчитать", on_click=get_result_R)
     out_R = ft.Text(size=20, selectable=True)
 
-    ##########
+    ########## добавление компонентов на страницу приложения
 
     tab_1 = ft.Column([ft.Row([num1, system1]), operator_dropdown, ft.Row([num2, system2]), ft.Row([system_out, calculate]), out])
 
